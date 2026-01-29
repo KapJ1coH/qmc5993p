@@ -6,6 +6,7 @@ license = "MIT OR Apache-2.0"
 description = "A platform-agnostic driver for the QMC5883P magnetic sensor."
 keywords = ["driver", "sensor", "magnetic", "embedded-hal", "i2c", "qmc5883p", "qmc"]
 repository = "https://github.com/KapJ1coH/qmc5883p.git"
+categories = ["embedded", "hardware-support", "no-std", "asynchronous"]
 
 [dependencies]
 embedded-hal = "1.0"

@@ -157,9 +157,9 @@ pub enum SetResetMode {
 /// Example:
 ///
 /// ```rust
-/// use qmc5883p::{Range, Mode, QmcT883PConfig, OutputDataRate, OverSampleRate, OverSampleRatio1 };
+/// use qmc5883p::{Range, Mode, Qmc5883PConfig, OutputDataRate, OverSampleRate, OverSampleRatio1 };
 ///
-/// let config = QmcT883PConfig::default()
+/// let config = Qmc5883PConfig::default()
 ///     .with_mode(Mode::Continuous)
 ///     .with_odr(OutputDataRate::Hz100)
 ///     .with_range(Range::Gauss8)
@@ -169,7 +169,7 @@ pub enum SetResetMode {
 /// ```
 #[cfg_attr(feature = "defmt", derive(defmt::Format))]
 #[derive(Debug, Clone, Copy)]
-pub struct QmcT883PConfig {
+pub struct Qmc5883PConfig {
     pub mode: Mode,
     pub odr: OutputDataRate,
     pub rng: Range,
@@ -179,7 +179,7 @@ pub struct QmcT883PConfig {
     self_test: SelfTest,
 }
 
-impl QmcT883PConfig {
+impl Qmc5883PConfig {
     /// Refer to the default implementation for default values.
     pub fn new() -> Self {
         Self::default()
@@ -231,7 +231,7 @@ impl QmcT883PConfig {
     }
 }
 
-impl Default for QmcT883PConfig {
+impl Default for Qmc5883PConfig {
     /// Start a new configuration with default values.
     fn default() -> Self {
         Self {
@@ -276,7 +276,7 @@ where
         Self { i2c }
     }
 
-    pub async fn init(&mut self, config: QmcT883PConfig) -> Result<(), QmcError<E>> {
+    pub async fn init(&mut self, config: Qmc5883PConfig) -> Result<(), QmcError<E>> {
         trace!("Initializing QMC5883P Sensor...");
         self.check_id().await?;
 
@@ -304,7 +304,7 @@ where
     }
 
     /// Applies the given configuration to the sensor by writing to the control registers.
-    pub async fn apply_configuration(&mut self, config: QmcT883PConfig) -> Result<(), QmcError<E>> {
+    pub async fn apply_configuration(&mut self, config: Qmc5883PConfig) -> Result<(), QmcError<E>> {
         self.configure_control_register_1(config.to_control1_byte())
             .await?;
         self.configure_control_register_2(config.to_control2_byte())
@@ -477,7 +477,7 @@ where
     ///
     /// # Returns
     /// The magnitude in **raw LSB**. To convert to Gauss, divide this value by
-    /// the sensitivity of your current `Range` setting.
+    /// the sensitivity of your current `Range` setting, see [`Range::sensitivity`].
     ///
     /// * Range::Gauss2  -> / 15000.0
     /// * Range::Gauss8  -> / 3750.0
@@ -681,7 +681,7 @@ mod tests {
         //! Control 2: Soft(0) | Self(0) | Rng(Gauss8=10) << 2 | SetReset(On=00)
         //! Binary: 0 0 10 00 -> 0x08
 
-        let config = QmcT883PConfig::default()
+        let config = Qmc5883PConfig::default()
             .with_osr2(OverSampleRate::Rate8) // 0b11
             .with_osr1(OverSampleRatio1::Ratio4) // 0b01
             .with_odr(OutputDataRate::Hz100) // 0b10

@@ -30,10 +30,10 @@ qmc5883p = "0.1.0"
 ### Basic Configuration
 
 ```rust
-use qmc5883p::{Range, Mode, QmcT883PConfig, OutputDataRate, OverSampleRate, OverSampleRatio1};
+use qmc5883p::{Range, Mode, Qmc5883PConfig, OutputDataRate, OverSampleRate, OverSampleRatio1};
 
 // Create a custom configuration
-let config = QmcT883PConfig::default()
+let config = Qmc5883PConfig::default()
     .with_mode(Mode::Continuous)
     .with_odr(OutputDataRate::Hz100)
     .with_range(Range::Gauss8)
