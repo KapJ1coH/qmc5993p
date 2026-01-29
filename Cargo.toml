@@ -1,0 +1,22 @@
+[package]
+name = "qmc5883p"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+embedded-hal = "1.0"
+embedded-hal-async = "1.0"
+embassy-time = { version = "0.5"}
+micromath = "2.1"
+defmt = { version = "1.0", optional = true }
+
+[features]
+default = ["defmt"]
+# default = []
+defmt = ["dep:defmt", "embassy-time/defmt"]
+
+[dev-dependencies]
+tokio = { version = "1", features = ["macros", "rt"] }
+embedded-hal-mock = { version = "0.11", features = ["embedded-hal-async"] }
+# embassy-time = { version = "0.5", features = ["mock-driver", "generic-queue-8"  ] }
+embassy-time = { version = "0.5", features = ["std", "generic-queue-8"  ] }
