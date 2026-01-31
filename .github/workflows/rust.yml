@@ -20,3 +20,19 @@ jobs:
       run: cargo build --verbose --release
     - name: Run tests
       run: cargo test --verbose --release
+
+  publish:
+    needs: build
+    name: publish to crates.io
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: katyo/publish-crates@v2
+        with:
+          # Cargo registry token
+          registry-token: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+          # Skip execution cargo publish
+          # dry-run: ${{ github.event_name != 'push' }}
+          dry-run: true # test
+          # Extra post publish delay (milliseconds)
+          publish-delay: 5000
